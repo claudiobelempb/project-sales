@@ -1,0 +1,29 @@
+.blurry {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 700px;
+  overflow: hidden;
+
+  &__bg {
+    background-image: url("../../assets/images/banner_home.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    // width: calc(100vw + 60px);
+    height: 100vh;
+    z-index: 1;
+    filter: blur(0px);
+  }
+
+  &__text {
+    color:#FFF;
+    font-size: 3.1rem;
+  }
+}
+
+

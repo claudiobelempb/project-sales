@@ -1,0 +1,17 @@
+.nav__item {
+  width: 100%;
+
+  & a {
+    width: 100%;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-weight: bold;
+  }
+
+  & a:hover {
+    background-color: #333;
+    color: #FFF;
+  }
+}
