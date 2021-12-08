@@ -1,6 +1,7 @@
+import Image from "next/image";
 import { useStateValue } from "../../StateProvider";
 
-import "./styles.css";
+import Styles from "./styles.module.scss";
 
 const ProductDefault = ({
   product_id,
@@ -26,11 +27,11 @@ const ProductDefault = ({
 
   const array_rating = Array(product_rating)
     .fill()
-    .map((_, i) => <p>⭐</p>);
+    .map((_, i) => <p key={i}>⭐</p>);
 
   return (
     <div product_id={product_id}>
-      <div className="product__default">
+      <div className={`${Styles.product__default}`}>
         <div className="product__info">
           <p className="product__title">{product_title}</p>
           <div className="product__rating">{array_rating}</div>
@@ -39,7 +40,12 @@ const ProductDefault = ({
             <strong>{product_price}</strong>
           </p>
         </div>
-        <img src={product_image} alt="" srcset="" className="product__image" />
+        <Image
+          src={product_image}
+          alt=""
+          srcset=""
+          className={`${Styles.product__image}`}
+        />
         <button onClick={addToBasket} className="product__basket-add">
           Add to Basket
         </button>
