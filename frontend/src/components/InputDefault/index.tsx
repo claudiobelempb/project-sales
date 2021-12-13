@@ -1,4 +1,5 @@
 import { InputHTMLAttributes } from "react";
+import { FORMAT_REAL } from "../../utils/utils";
 import Styles from "./styles.module.scss";
 
 interface ImputDefaultProps
@@ -9,7 +10,8 @@ interface ImputDefaultProps
   iscolor?: boolean;
   icon?: boolean;
   isbgcolor?: string;
-  hasError?: boolean;
+  haserror?: boolean;
+  iscurrency?: boolean;
 }
 
 const InputDefault: React.FC<ImputDefaultProps> = ({
@@ -17,11 +19,13 @@ const InputDefault: React.FC<ImputDefaultProps> = ({
   label,
   isbgcolor,
   iscolor,
+  iscurrency,
 
   ...props
 }: ImputDefaultProps) => {
   const isColor = iscolor ?? "color_black-500";
   const isBgColor = isbgcolor ?? "#c3c3c3";
+  const isCurrency = iscurrency ?? "";
   const isId = id ?? "input" + id;
 
   switch (props.type) {
@@ -45,6 +49,7 @@ const InputDefault: React.FC<ImputDefaultProps> = ({
         <div className={`${Styles.input__default}`}>
           <label htmlFor={label}>{label}</label>
           <input
+            value={props.value}
             onChange={props.onChange}
             placeholder={props.placeholder ?? ""}
             alt={props.alt ?? "Text alternative"}

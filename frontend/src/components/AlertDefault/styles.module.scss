@@ -1,0 +1,85 @@
+.alert__default {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  margin: 1rem 0;
+  border-radius: 0.25rem;
+  border-left-color: 1px red;
+  position: relative;
+
+  & p {
+    font-size: 1.2em;
+    padding: 0.8rem;
+  }
+
+  &_bottom {
+    margin: 30px 0 0 0;
+  }
+
+  &_link {
+    margin: 30px 0 0 0;
+  }
+
+  &_close_alert {
+    display: none;
+  }
+
+  &_open_alert {
+    display: block;
+  }
+
+  &_success {
+    background-color: #accc9a;
+    color: #6b7f60;
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 8px;
+      height: 100%;
+      background-color: #6b7f60;
+      border-radius: 0.25rem 0 0 0.25rem;
+    }
+  }
+  &_info {
+    background-color: #9ab7cc;
+    color: #60727f;
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 8px;
+      height: 100%;
+      background-color: #60727f;
+      border-radius: 0.25rem 0 0 0.25rem;
+    }
+  }
+  &_warning {
+    background-color: #c6b247;
+    color: #776b2b;
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 8px;
+      height: 100%;
+      background-color: #776b2b;
+      border-radius: 0.25rem 0 0 0.25rem;
+    }
+  }
+  &_danger {
+    background-color: #e69f9f;
+    color: #996a6a;
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 8px;
+      height: 100%;
+      background-color: #996a6a;
+      border-radius: 0.25rem 0 0 0.25rem;
+    }
+  }
+}

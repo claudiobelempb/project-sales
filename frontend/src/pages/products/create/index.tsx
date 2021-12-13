@@ -6,6 +6,8 @@ import { Layout } from "../../../components/Layout";
 import { useProductService } from "../../../app/services";
 import { Product } from "../../../app/models/product";
 import { RANDOM_NUMBER, FORMAT_DATE } from "../../../utils/utils";
+import { AlertProps } from "../../../components/AlertDefault";
+import { ValidationCreateSchema } from "./ValidationCreateSchema";
 
 const CreateProduct: React.FC = () => {
   const service = useProductService();
@@ -14,29 +16,64 @@ const CreateProduct: React.FC = () => {
 
   const [id, setId] = useState<string>("");
   const [sku, setSku] = useState<number>(random_number);
-  const [price, setPrice] = useState<number>(0);
+  const [price, setPrice] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [createdAt, setCreatedAt] = useState<string>("");
-  // console.log(createdAt);
+  const [alert, setAlert] = useState<Array<AlertProps>>([]);
 
   const createProduct = () => {
     const product: Product = {
+      id,
       sku,
       price,
       name,
       description,
     };
 
-    setSku(random_number);
-    setPrice(0);
-    setName("");
-    setDescription("");
-    service.create(product).then((resp) => {
-      setId(resp.id ? resp.id : ""),
-        setCreatedAt(resp.createdAt ? resp.createdAt : "");
-    });
-    console.log(product);
+    ValidationCreateSchema.validate(product)
+      .then((obj) => {
+        if (id) {
+          service.update(product).then((resp) => {
+            setAlert([
+              {
+                field: "Produto",
+                message: "atualizado com sucesso",
+                type: "success",
+              },
+            ]);
+          });
+        } else {
+          service.create(product).then((resp) => {
+            setId(resp.id ? resp.id : ""),
+              setCreatedAt(resp.createdAt ? resp.createdAt : "");
+          });
+          setAlert([
+            {
+              field: "Produto",
+              message: "cadastrado com sucesso",
+              type: "success",
+            },
+          ]);
+          // setSku(random_number);
+          // setPrice(0);
+          // setName("");
+          // setDescription("");
+        }
+      })
+      .catch((err) => {
+        const field = err.path;
+        const message = err.message;
+
+        setAlert([
+          {
+            field,
+            message,
+            type: "danger",
+          },
+        ]);
+        console.log(JSON.parse(JSON.stringify(err)));
+      });
   };
 
   return (
@@ -44,6 +81,7 @@ const CreateProduct: React.FC = () => {
       heading={id ? "Atualizar Produtos" : "Cadastro Produtos"}
       title={id ? "Atualizar Produtos" : "Cadastro Produtos"}
       type={"dashboard"}
+      alerts={alert}
     >
       <section>
         <form className={`form__Default`}>
@@ -79,9 +117,10 @@ const CreateProduct: React.FC = () => {
               type={"number"}
               placeholder="Preço"
               label="Preço *"
-              id="preco"
-              value={id ? price : ""}
-              onChange={(e) => setPrice(parseFloat(e.target.value))}
+              id="price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              iscurrency
             />
           </div>
           <InputDefault
@@ -89,7 +128,7 @@ const CreateProduct: React.FC = () => {
             placeholder="Nome"
             label="Nome *"
             id="nome"
-            value={id ? name : ""}
+            value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
@@ -98,9 +137,11 @@ const CreateProduct: React.FC = () => {
             placeholder="Descrição"
             label="Descrição *"
             id="descricao"
-            value={id ? description : ""}
+            value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+
+          {/* <AlertDefault message="Produto inválido" type="danger" field="Name" /> */}
 
           <div className="button__default_group">
             <ButtonDefault

@@ -5,13 +5,14 @@ import Styles from "./styles.module.scss";
 
 type DashboardProps = {
   title?: string;
-
   children?: React.ReactNode;
+  isAlert?: boolean;
 };
 
 const Dashboard: React.FC<DashboardProps> = ({
   children,
   title,
+  isAlert,
 }: DashboardProps) => {
   return (
     <div className={`${Styles.layout__container}`}>

@@ -14,6 +14,8 @@ const Products: React.FC = () => {
         label={"Cadastrar"}
         href={"/products/create"}
         isbgcolor="bgcolor__500"
+        type="button"
+        isFontcolor="fontcolor__100"
       />
 
       <section>

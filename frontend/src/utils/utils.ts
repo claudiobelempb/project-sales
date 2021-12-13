@@ -35,7 +35,7 @@ const FORMAT_DATE_RO = (date: string): string => {
 const FORMAT_DATE = (date: string): string => {
   // return new Intl.DateTimeFormat("pt-BR").format(new Date(data));
   const data = new Date(date);
-  console.log(data);
+  // console.log(data);
   return new Intl.DateTimeFormat("pt-BR", {
     dateStyle: "full",
     timeStyle: "long",
@@ -60,4 +60,40 @@ const FORMAT_PRICE = (value: number): string => {
   }).format(value);
 };
 
-export { RANDOM_NUMBER, RANDOM_STRING, FORMAT_DATE, FORMAT_PRICE };
+const FORMAT_BIG_DECIMAL = (value: string): number => {
+  if (!value) {
+    return 0;
+  }
+  //2.000,00 -> 2000,00
+  value.replace(".", "").replace(",", ".");
+  return parseFloat(value);
+};
+
+const FORMAT_REAL = (value: any) => {
+  const v = ((value.replace(/\D/g, "") / 100).toFixed(2) + "").split(".");
+
+  const m: RegExpMatchArray | null = v[0]
+    .split("")
+    .reverse()
+    .join("")
+    .match(/.{1,3}/g);
+  if (m === null) {
+    return "";
+  }
+  for (let i = 0; i < m.length; i++)
+    m[i] = m[i].split("").reverse().join("") + ".";
+
+  const r = m.reverse().join("");
+
+  return r.substring(0, r.lastIndexOf(".")) + "," + v[1];
+};
+
+export {
+  RANDOM_NUMBER,
+  RANDOM_STRING,
+  FORMAT_DATE,
+  FORMAT_PRICE,
+  FORMAT_PRICE_RO,
+  FORMAT_BIG_DECIMAL,
+  FORMAT_REAL,
+};

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ShoppingBasket, Storefront, Search } from "@material-ui/icons";
+
 import Styles from "./styles.module.scss";
 
 import { useStateValue } from "../../StateProvider";
