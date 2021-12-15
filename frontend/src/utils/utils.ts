@@ -88,6 +88,74 @@ const FORMAT_REAL = (value: any) => {
   return r.substring(0, r.lastIndexOf(".")) + "," + v[1];
 };
 
+// Show input error
+const SHOW_ERROR = (value: any, mensage: string) => {
+  const formControll = value.parentElement;
+  formControll.className = "form-controll error";
+  const small = formControll.querySelector("small");
+  small.innerText = mensage;
+};
+
+// Show input success
+const SHOW_SUCCESS = (value: any, mensage: string) => {
+  const formControll = value.parentElement;
+  formControll.className = "form-controll success";
+  const small = formControll.querySelector("small");
+  small.innerText = mensage;
+};
+
+// // Check email is valid
+const CHECK_EMAIL = (email: string) => {
+  const re =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (re.test(`${email}.value`.trim())) {
+    return SHOW_SUCCESS(email, "Email valid");
+  } else {
+    return SHOW_ERROR(email, "Email is not valid");
+  }
+};
+
+// Check required fields campos requiridos
+const CHECK_FIELS_REQUIRID = (inputArr: any[]) => {
+  inputArr.forEach(function (input: any) {
+    if (input.value.trim() === "") {
+      return SHOW_ERROR(input, `${GET_FIEL_NAME(input)} is required`);
+    } else {
+      return SHOW_SUCCESS(input, "");
+    }
+  });
+  return inputArr;
+};
+
+// Check input length min e max caracter
+const CHECK_LENGTH = (input: any, min: number, max: number) => {
+  if (input.value.length < min) {
+    return SHOW_ERROR(
+      input,
+      `${GET_FIEL_NAME(input)} must be at least ${min} characters`
+    );
+  } else if (input.value.length > max) {
+    return SHOW_SUCCESS(
+      input,
+      `${GET_FIEL_NAME(input)} must be less than ${max} characters`
+    );
+  } else {
+    return SHOW_SUCCESS(input, "");
+  }
+};
+
+// Check passwords match checa se os campos são iguais
+const CHECK_PASSWORD_MATCH = (input1: string, input2: string) => {
+  if (`${input1}.value` !== `${input2}.value`) {
+    return SHOW_ERROR(input2, "Passwords do not match");
+  }
+};
+
+// Get fieldname convert 1º carecter em maisculo
+const GET_FIEL_NAME = (input: string) => {
+  return `${input}.value`.charAt(0).toUpperCase() + `${input}.value`.slice(1);
+};
+
 export {
   RANDOM_NUMBER,
   RANDOM_STRING,
@@ -96,4 +164,11 @@ export {
   FORMAT_PRICE_RO,
   FORMAT_BIG_DECIMAL,
   FORMAT_REAL,
+  CHECK_EMAIL,
+  CHECK_FIELS_REQUIRID,
+  CHECK_LENGTH,
+  CHECK_PASSWORD_MATCH,
+  GET_FIEL_NAME,
+  SHOW_ERROR,
+  SHOW_SUCCESS,
 };
